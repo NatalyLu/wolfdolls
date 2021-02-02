@@ -185,39 +185,22 @@ swipe(slider, { maxTime: 1000, minTime: 100, maxDist: 150,  minDist: 60 });
 // обработка свайпов
 slider.addEventListener("swipe", function(e) {
   var carentIndex = 0;
+
+  // находим активный элемент
+  Array.from(inputs).forEach(function(item, i) {
+    if (item.checked) {
+      carentIndex = i;
+    }
+  });
+
   if (e.detail.dir === "left") {
-    // находим активный элемент
-    Array.from(inputs).forEach(function(item, i) {
-      if (item.checked) {
-        carentIndex = i;
-        // если слайд последний, то передвинем контейнер на первый слайд
-        if (i >= (slidesQuantity - 1)) {
-          container.style.marginLeft = "0";
-        } else {
-          container.style.marginLeft = -(i+1)*100 + "%";
-        }
-      }
-    });
     // если слайд последний, то сделаем активным первый чекбокс
     if (carentIndex >= (slidesQuantity - 1)) {
       inputs[0].checked = 'true';
     } else {
       inputs[carentIndex + 1].checked = 'true';
     }
-
   } else if (e.detail.dir === "right") {
-    // Находим активный элемент
-    Array.from(inputs).forEach(function(item, i) {
-      if (item.checked) {
-        carentIndex = i;
-        // если слайд первый, то передвинем контейнер на последний слайд
-        if (i === 0) {
-          container.style.marginLeft = "-900%";
-        } else {
-          container.style.marginLeft = -(i-1)*100 + "%";
-        }
-      }
-    });
     // если слайд первый, то сделаем активным последний чекбокс
     if (carentIndex === 0) {
       inputs[slidesQuantity - 1].checked = 'true';
